@@ -1,0 +1,10 @@
+Raspbian Control of MPD
+=======================
+
+A simple hacked together controller for mpc/mpd, meant for a Raspberry Pi.
+
+Runs an HTTP server on port 10005. Point a web browser at
+http://THE_RPI_IP_ADDRESS:10005/RCMLAZYSTARTmainRCixMlz1zlMxiCR
+
+Compile with `g++ -pthread -o rcm rcm.cc`, and then simply run the resulting
+binary on the RPi. (Can run from any working directory).
