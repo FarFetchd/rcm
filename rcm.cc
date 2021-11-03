@@ -35,7 +35,7 @@ int listenTCP(uint16_t port)
   if ((rv = getaddrinfo(NULL, port_str.c_str(), &hints, &servinfo)) != 0)
   {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
-    return 1;
+    exit(1);
   }
 
   // loop through all the results and bind to the first we can
