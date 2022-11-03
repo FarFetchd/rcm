@@ -152,7 +152,7 @@ string buildPage()
 }
 
 constexpr char kRedirect[] =
-"HTTP/1.1 301 Moved Permanently\r\n"
+"HTTP/1.1 302 Found\r\n"
 "Location: /RCMLAZYSTARTmainRCixMlz1zlMxiCR\r\n\r\n";
 constexpr int kRedirectLen = strlen(kRedirect);
 
