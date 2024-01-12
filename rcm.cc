@@ -106,19 +106,20 @@ uint64_t g_next_nonce = 1;
 uint64_t g_last_change_msse = 0;
 set<uint64_t> g_nonces_used;
 
-// TODO      mpc --format="%position%: %title%" playlist
+
 string buildPage()
 {
-  string info = splitString(runShellSync(
-      "mpc --format=\"%position%: %title% by %artist%\""),'\n')[0];
-  int playlist_ind1 = 1;
-  string trackname;
-  try
-  {
-    playlist_ind1 = std::stoi(info.substr(0, info.find(": ")));
-    trackname = info.substr(info.find(": ")+2);
-  }
-  catch (const std::exception& e) {}
+  string title, artist, filename;
+
+  auto info = splitString(runShellSync(
+      "mpc --format=\"%title%\\n%artist%\\n%file%\""),'\n');
+  if (info.size() > 0)
+    title = info[0];
+  if (info.size() > 1)
+    artist = info[1];
+  if (info.size() > 2)
+    filename = info[2];
+  string display = title.empty() ? filename : (title + " by " + artist);
 
   string cur_nonce;
   {
@@ -131,7 +132,7 @@ string buildPage()
 "<head><meta charset=\"utf-8\"/><style>\nh1 {\n"
 "  font-size: 6em;\n"
 "}\n</style></head><body>\n"
-"Now playing:<br><b>"+trackname+"</b><br>\n"
+"Now playing:<br><b>"+display+"</b><br>\n"
 "<h1>\n"
 "  <a href=\"RCMLAZYSTARTvoldnRCixMlz"+cur_nonce+"zlMxiCR\">. -- .</a> VOL <a href=\"RCMLAZYSTARTvolupRCixMlz"+cur_nonce+"zlMxiCR\">. + .</a>\n"
 "</h1><br>\n"
