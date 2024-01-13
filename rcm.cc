@@ -111,8 +111,11 @@ string buildPage()
 {
   string title, artist, filename;
 
-  auto info = splitString(runShellSync(
-      "mpc --format=\"%title%\\n%artist%\\n%file%\""),'\n');
+  string mpc_blob = runShellSync("mpc --format=\"%title%\\n%artist%\\n%file%\"");
+  auto info = splitString(mpc_blob, '\n');
+  string player_status;
+  if (auto vol_ind = mpc_blob.find("volume:"); vol_ind != string::npos)
+    player_status = mpc_blob.substr(vol_ind);
   if (info.size() > 0)
     title = info[0];
   if (info.size() > 1)
@@ -132,7 +135,7 @@ string buildPage()
 "<head><meta charset=\"utf-8\"/><style>\nh1 {\n"
 "  font-size: 6em;\n"
 "}\n</style></head><body>\n"
-"Now playing:<br><b>"+display+"</b><br>\n"
+"Now playing:<br><b>"+display+"</b><br><br>"+player_status+"<br>\n"
 "<h1>\n"
 "  <a href=\"RCMLAZYSTARTvoldnRCixMlz"+cur_nonce+"zlMxiCR\">. -- .</a> VOL <a href=\"RCMLAZYSTARTvolupRCixMlz"+cur_nonce+"zlMxiCR\">. + .</a>\n"
 "</h1><br>\n"
